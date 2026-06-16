@@ -161,10 +161,11 @@ class HeaderComponent extends Component {
   #lerpProgress = () => {
     const delta = this.#targetProgress - this.#currentProgress;
     const colorDelta = this.#targetColorProgress - this.#currentColorProgress;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     // Smoothly approach the target value
     // If the difference is tiny, snap to target to prevent infinite oscillation
-    if (Math.abs(delta) < 0.0001 && Math.abs(colorDelta) < 0.0001) {
+    if (reduceMotion || (Math.abs(delta) < 0.0001 && Math.abs(colorDelta) < 0.0001)) {
       this.#currentProgress = this.#targetProgress;
       this.#currentColorProgress = this.#targetColorProgress;
       this.#isUpdatingProgress = false;
